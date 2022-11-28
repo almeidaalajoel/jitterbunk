@@ -1,0 +1,69 @@
+<style>
+    .container {
+        display: flex;
+        height: 300px;
+        width: 300px; 
+        margin-bottom: 20px;
+    }
+    img {
+        width: 100%;
+        max-height: 100%;
+        border-radius: 25px;
+    }
+    .row {
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+    }
+    .col {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    h1 {
+        text-align: center;
+    }
+    h2 {
+        text-align: center;
+    }
+</style>
+
+{% if bunk_list %}
+<h1>{{kwargs.username}}'s Bunks!</h1>
+<a href="../"><h2>Full Feed</h2></a>
+<div class="col">
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+    {% for bunk in bunk_list %}
+        <div class="row">
+            <div class="col">
+                {{bunk.from_user.username}}
+                <a href="../{{bunk.from_user.username}}">
+                    <div class="container">
+                        <img src="{{bunk.from_user.photo}}" alt="photo"></img>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <p>{{bunk.time}}</p>
+                <p>--------></p>
+            </div>
+            <div class="col">
+                {{bunk.to_user.username}}
+                    <div class="container">
+                        <img src="{{bunk.to_user.photo}}" alt="photo"></img>
+                    </div>
+            </div>
+        </div>
+    {% endfor %}
+<form action="{% url 'bunks:bunk' kwargs.username %}" method="post">
+    {% csrf_token %}
+    <input type="text" name="to_user" id="to_user">
+        <label for="to_user">Who do you want to bunk?</label><br>
+    <input type="submit" value="Bunk">
+</form>
+</div>
+{% else %}
+    <p>Nobody's bunked yet!</p>
+{% endif %}

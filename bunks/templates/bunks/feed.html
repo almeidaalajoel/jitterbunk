@@ -1,0 +1,58 @@
+<style>
+    .container {
+        display: flex;
+        height: 300px;
+        width: 300px; 
+        margin-bottom: 20px;
+    }
+    img {
+        width: 100%;
+        max-height: 100%;
+        border-radius: 25px;
+    }
+    .row {
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+    }
+    .col {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    h1 {
+        text-align: center;
+    }
+</style>
+
+{% if bunk_list %}
+<h1>All Bunks!</h1>
+    {% for bunk in bunk_list %}
+        <div class="row">
+            <div class="col">
+                {{bunk.from_user.username}}
+                <a href="{{bunk.from_user.username}}">
+                    <div class="container">
+                        <img src="{{bunk.from_user.photo}}" alt="photo"></img>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <p>{{bunk.time}}</p>
+                <p>--------></p>
+            </div>
+            <div class="col">
+                {{bunk.to_user.username}}
+                <a href="{{bunk.to_user.username}}">
+                    <div class="container">
+                        <img src="{{bunk.to_user.photo}}" alt="photo"></img>
+                    </div>
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>Nobody's bunked yet!</p>
+{% endif %}
