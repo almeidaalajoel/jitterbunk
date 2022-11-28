@@ -41,6 +41,7 @@ def bunk(request, username):
         to_user=User.objects.get(username=to_username)
         bunk = Bunk(from_user=from_user, to_user=to_user)
     except (KeyError, User.DoesNotExist):
+        #Not sure if this is the best approach, seems to be somewhat wasteful when we are already on the user's page
         return render(request, 'bunks/user_feed.html', {
             'bunk_list': from_user.bunks_in.all(),
             'error_message': to_username+ " not found.",
